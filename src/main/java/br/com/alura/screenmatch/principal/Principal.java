@@ -7,9 +7,8 @@ import br.com.alura.screenmatch.model.DadosTemporada;
 import br.com.alura.screenmatch.service.ConsumoApi;
 import br.com.alura.screenmatch.service.ConverteDados;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Principal {
 
@@ -42,8 +41,60 @@ public class Principal {
 //                System.out.println(episodiosTemporada.get(j).titulo());
 //            }
 //        }
+//         Isso tudo aqui encima é apenas essa linha de baixo... wtf
 
-        // Isso tudo aqui encima é apenas essa linha de baixo... wtf
         temporadas.forEach(t -> t.episodeos().forEach(e -> System.out.println(e.titulo())));
+
+
+        List<DadosEpisodeo> dadosEpisodeos = temporadas.stream()
+                .flatMap(t -> t.episodeos().stream())
+                .collect(Collectors.toList());
+
+        System.out.println("\nTop 5 episódeos");
+        dadosEpisodeos.stream()
+                .filter(e -> !e.avaliacao().equalsIgnoreCase("N/A"))
+                .sorted(Comparator.comparing(DadosEpisodeo::avaliacao).reversed())
+                .limit(5)
+                .forEach(System.out::println);
+
+
+
+
+//------------------------------------------------------------------------------------
+
+//        List<String> nomes = Arrays.asList("Lucas", "Luana", "Maria", "José", "Priscila");
+//
+//        nomes.stream()
+//                .sorted() // Devolve a lista em ordem alfabética.
+//                .limit(4) // Devolve a Lista, com o limite fornecido
+//                .filter(n -> n.startsWith("M")) // Filtra com a função Lambda, baseado na Letra fornecida.
+//                .map(n -> n.toUpperCase())
+//                .forEach(System.out::println);
+
+
+//        List<Integer> numeros = new ArrayList<>();
+//
+//        for (int i = 0; i < 100; i++) {
+//            numeros.add(i);
+//        }
+//
+//        List<Integer> numerosPares = numeros.stream()
+//                .filter(n -> n % 2 == 0)
+//                .collect(Collectors.toList());
+//
+//        List<Integer> somarNumeros = Collections.singletonList(numeros.stream()
+//                .mapToInt(Integer::intValue)
+//                .sum());
+//
+//        List<Integer> numerosImpares = numeros.stream()
+//                .filter(n -> n % 2 != 0)
+//                .collect(Collectors.toList());
+//
+//        System.out.println(numerosPares);
+//
+//        System.out.println(numerosImpares);
+//
+//        System.out.println(somarNumeros);
+
     }
 }
